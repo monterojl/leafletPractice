@@ -1,0 +1,45 @@
+---
+Title: RMarkdown and Leaflet Practice
+Author: Jose Montero
+Date: Apr 21st, 2018
+output: 
+  html_document:
+    keep_md: true
+---
+
+### 0.Executive summary
+
+In this practice, we will create a web page using R Markdown that features a map created with Leaflet.
+
+### 1.Create Markers
+First of all it is needed to create the markers with the metadata we want to show.
+
+```{r markers, message = FALSE}
+library(knitr); library(leaflet)
+uniLatLong <- data.frame(
+   lat = c(40.45280869673105, 40.45066969280751, 40.44570563511516),
+   lng = c(-3.733452405711205, -3.730727281352074, -3.7283669374189685))
+
+uniIcon<- makeIcon(
+   iconUrl = "http://cursosinformatica.ucm.es/img/icons/ucm.png",
+   iconWidth = 31*215/230, iconHeight = 31,
+   iconAnchorX =31*215/230, iconAnchorY = 16
+)
+
+uniSites <- c(
+"<a href='http://informatica.ucm.es/'>UCM Faculty of Computer Science</a>",
+"<a href='http://derecho.ucm.es/'>UCM Faculty of Law</a>",
+"<a href='http://ccinformacion.ucm.es/'>UCM Faculty of Information Science</a>")
+```
+
+
+### 2 Generate Map
+
+Now we wil lcreate the map using the markers defined above.
+
+```{r map}
+uniLatLong %>%
+   leaflet() %>%
+   addTiles() %>%
+   addMarkers(icon = uniIcon, popup = uniSites)
+```
